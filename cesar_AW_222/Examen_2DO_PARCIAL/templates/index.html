@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crud Calificaciones</title>
+</head>
+<body>
+    <div>
+        <h1>Gestion de Calificaciones</h1>
+        
+        {% with mensajes = get_flashed_messages() %}
+            {% if mensajes %}
+                {% for msj in mensajes %}
+                    <h3> {{ msj }}</h3>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        
+        <form action="/guardar" method="POST">
+            <input type="text" name="txtMatricula" placeholder="Escribe la matricula">
+            <input type="text" name="txtAlumno" placeholder="Escribe tu nombre">
+            <input type="number" step="0.1" name="txtCalificacion" placeholder="Escribe la calificacion">  
+            <button type="submit">Guardar</button> 
+        </form>
+        
+        <br><br>
+        
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>Id:</td>
+                    <td>Matricula:</td>
+                    <td>Alumno:</td>
+                    <td>Calificacion:</td>
+                    <td>Acciones: </td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for calif in listCalificaciones %}
+                <tr>
+                    <td>{{calif.0}}</td>
+                    <td>{{calif.1}}</td>
+                    <td>{{calif.2}}</td>
+                    <td>{{calif.4}}</td>
+                    <td>
+                        <a href="/editar/{{calif.0}}">Editar</a>
+                        <a href="/eliminar/{{calif.0}}">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody> 
+        </table>
+    </div>
+</body>
+</html>
