@@ -1,14 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        div {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 430px;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f2937;
+            font-size: 24px;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            background-color: #fee2e2;
+            border: 1px solid #fecaca;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        br {
+            display: none;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #111827;
+            background-color: #f9fafb;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div>
         <h1>REGISTRO</h1>
-        <form action="/registro" method="POST">
+
+        {% with mensajes = get_flashed_messages() %}
+            {% if mensajes %}
+                {% for mensaje in mensajes %}
+                    <p style="color: red; font-weight: bold;">{{ mensaje }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('registro') }}" method="POST">
             <label>Nombre(s):</label>
             <input type="text" name="nombre" required>
             <br><br>
@@ -24,13 +140,15 @@
             <label>Contraseña:</label>
             <input type="password" name="password" required>
             <br><br>
-            <label for="id_rol">Tipo de usuario</label>
-                <select name="id_rol" id="id_rol" required>
-                    <option value="1">Administrador</option>
-                    <option value="2">Usuario </option>
-                </select>
+            <label for="id_rol">Tipo de usuario:</label>
+            <select name="id_rol" id="id_rol" required>
+                <option value="1">Administrador</option>
+                <option value="2">Usuario</option>
+            </select>
+            <br><br>
             <button type="submit">Registrarse</button>
         </form>
+        <br>
         <a href="{{ url_for('login') }}">Regresar al login</a>
     </div>
 </body>

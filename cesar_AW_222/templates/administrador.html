@@ -1,11 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Administrador
-</body>
-</html>
+<!-- HEREDAR LA PLANTILLA -->
+{% extends 'navbar_footer.html' %}
+
+{% block title %}
+Panel de administrador
+{% endblock %}
+
+<!-- CONTENIDO DE LA PLANTILLA -->
+{% block content %}
+
+<div class="p-10">
+    <!-- MENSAJES DE JINJA2 -->
+    {% with mensajes = get_flashed_messages() %}
+        {% if mensajes %}
+            {% for mensaje in mensajes %}
+                <div role="alert" class="alert alert-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>{{ mensaje }}</span>
+                </div>          
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- MODAL DE REGISTRAR USUARIO -->
+    <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+            <div class="modal-action">
+                <form action="/registro" method="POST">
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" name="nombre" placeholder="Nombre" class="input input-warning" required>
+                        <input type="text" name="apellido_p" placeholder="Apellido paterno" class="input input-warning" required>
+                        <input type="text" name="apellido_m" placeholder="Apellido materno" class="input input-warning" required>
+                        <input type="email" name="correo" placeholder="Correo" class="input input-warning" required>
+                        <input type="password" name="password" placeholder="Contraseña" class="input input-warning" required>
+                        <select name="id_rol" id="id_rol" class="input input-warning" required>
+                            <option value="2">Usuario</option>
+                            <option value="1">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="mt-4 flex gap-2">
+                        <button type="submit" class="btn btn-primary">Registrarme</button>
+                        <button type="button" class="btn" onclick="my_modal_1.close()">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- TABLA DE USUARIOS -->
+    <div class="flex w-full flex-col lg:flex-row">
+        <h2 class="text-xl font-bold mb-4 grid h-8 grow place-items-center">Usuarios registrados</h2>
+        <button type="button" class="btn text-xl font-bold mb-4 grid h-8 grow place-items-center" onclick="my_modal_1.showModal()">Registrar usuario</button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in listUsers %}
+                <tr>
+                    <td>{{ usuario[0] }}</td>
+                    <td>{{ usuario[1] }}</td>
+                    <td>{{ usuario[2] }}</td>
+                    <td>{{ usuario[3] }}</td>
+                    <td>{{ usuario[4] }}</td>
+                    <td>{{ usuario[5] }}</td>
+                    <td>Editar</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7">No hay usuarios registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

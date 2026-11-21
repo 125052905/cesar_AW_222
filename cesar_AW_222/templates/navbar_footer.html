@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Panel{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col bg-base-100">
+
+    <!-- NAVBAR -->
+    <div class="navbar bg-base-200 px-6 shadow">
+        <div class="flex-1">
+            <span class="text-lg font-bold">Sistema FlaskTIID</span>
+        </div>
+        <div class="flex-none gap-4">
+            {% if nombre %}
+                <span>Hola, <strong>{{ nombre }}</strong></span>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="btn btn-sm btn-error text-white">Cerrar sesión</a>
+        </div>
+    </div>
+
+    <!-- CONTENIDO -->
+    <main class="flex-grow">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer footer-center p-4 bg-base-200 text-base-content">
+        <aside>
+            <p>© 2026 - FlaskTIID</p>
+        </aside>
+    </footer>
+
+</body>
+</html>
